@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class TS021test {
     @Test
-    public void testTS021() throws InterruptedException {
+    public void testTS021(){
 
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
@@ -37,7 +37,7 @@ public class TS021test {
         Assert.assertEquals(actualNoteTextMsg,expectedNoteTextMsg);
 
 
-//        driver.quit();
+        driver.quit();
 
     }
 }
