@@ -1,5 +1,7 @@
 package com.nextbasecrm.test.practice1;
 
+import com.nextbasecrm.test.utilities.ConfigurationReader;
+import com.nextbasecrm.test.utilities.Driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,34 +12,24 @@ import org.testng.annotations.Test;
 
 public class TS021test {
     @Test
-    public void testTS021(){
-
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public void testTS021() {
 
         final String emailAddress = "helpdesk1@cybertekschool.com";
 
-        driver.get("https://login.nextbasecrm.com/");
-        WebElement forgotPassword = driver.findElement(By.className("login-link-forgot-pass"));
-        forgotPassword.click();
+        Driver.getDriver().get(ConfigurationReader.getProperty("env"));
+        Driver.getDriver().findElement(By.className("login-link-forgot-pass")).click();
 
-        WebElement emailAddressBox = driver.findElement(By.name("USER_EMAIL"));
+        WebElement emailAddressBox = Driver.getDriver().findElement(By.name("USER_EMAIL"));
         emailAddressBox.sendKeys(emailAddress);
-
-        WebElement resetPasswordButton = driver.findElement(By.className("login-btn"));
-        resetPasswordButton.click();
-
-        WebElement noteTextMsg = driver.findElement(By.className("notetext"));
-
+        Driver.getDriver().findElement(By.className("login-btn")).click();
+        WebElement noteTextMsg = Driver.getDriver().findElement(By.className("notetext"));
 
         String actualNoteTextMsg = noteTextMsg.getText();
         String expectedNoteTextMsg = "A code to reset your password and your registration information has just been " +
                 "sent to your e-mail address. Please check your e-mail. Note that the reset code is re-generated on each request.";
-        Assert.assertEquals(actualNoteTextMsg,expectedNoteTextMsg);
+        Assert.assertEquals(actualNoteTextMsg, expectedNoteTextMsg);
 
-
-        driver.quit();
+        Driver.closeDriver();
 
     }
 }

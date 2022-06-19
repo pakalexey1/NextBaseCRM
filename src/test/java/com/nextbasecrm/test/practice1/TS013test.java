@@ -1,5 +1,7 @@
 package com.nextbasecrm.test.practice1;
 
+import com.nextbasecrm.test.utilities.ConfigurationReader;
+import com.nextbasecrm.test.utilities.Driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,34 +12,24 @@ import org.testng.annotations.Test;
 
 public class TS013test {
     @Test
-    public void  testTS013(){
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public void testTS013() {
+
 
         //"Given I am on nextbasecrm.com authorization page
-        driver.get("https://login.nextbasecrm.com/");
-
         //When I enter my helpdesk user name
-        WebElement userName = driver.findElement(By.cssSelector("div>input[name='USER_LOGIN']"));
-        userName.sendKeys("helpdesk1@cybertekschool.com");
-
         //And I enter invalid password
-        WebElement password = driver.findElement(By.cssSelector("div>input[name='USER_PASSWORD']"));
-        password.sendKeys("asdfsadf");
-
         //And I click on Log In button
-        WebElement loginButton = driver.findElement(By.cssSelector("div>input[class='login-btn']"));
-        loginButton.click();
+        CRMLogin.crmLogin(ConfigurationReader.getProperty("helpDeskUsername2"), "asdfsadf");
+
 
         //Then the user should see ""Incorrect login or password"" message"
-        WebElement errorMessage = driver.findElement(By.cssSelector("div[class='errortext']"));
+        WebElement errorMessage = Driver.getDriver().findElement(By.cssSelector("div[class='errortext']"));
         String actualErrorMessage = errorMessage.getText();
         String expectedErrorMessage = "Incorrect login or password";
 
-        Assert.assertEquals(actualErrorMessage,expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
 
-        driver.quit();
+        Driver.closeDriver();
 
 
     }
